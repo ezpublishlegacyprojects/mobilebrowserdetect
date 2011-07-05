@@ -1,0 +1,58 @@
+Mobile browser detect extension for eZ Publish
+=========================================================================
+Author: Alex Kozeka <kozeka.alex@gmail.com>
+Date: July 2011
+
+
+An extension aiming to perform server-side detection of client's mobile browser and
+to do automatic redirection to mobile version of the site.
+
+
+License
+=======
+GNU General Public License v2.0
+
+
+Requirements
+============
+- eZ Publish 4.0+ (tested with 4.3).
+
+
+Installation
+============
+1) Copy mobilebrowserdetect directory to eZ Publish extension directory.
+
+2) Generate autoloads using commands:
+cd ezp_dir
+php bin/php/ezpgenerateautoloads.php
+
+3) Activate extension in your site.ini.append.php
+
+4) Go to admin interface.
+- Open Setup/Workflows/Standard.
+- Create new workflow 'Before content read'.
+- From event dropdown list choose 'Event / Mobile browser detect'.
+- OK.
+
+5) Open Setup/Triggers and assign 'Before content read' worflow to 'content read before' trigger and apply changes.
+
+6) Specify these parameters in site.ini.append.php of 'full' version siteaccess:
+SiteMobileURL=http://m.mysite.com/
+FullViewOnMobileCookieTimeout=365
+
+Check site.ini.append.php in settings folder of this extension for more info.
+
+
+Description and usage
+=====================
+Extension uses workflow event to detect mobile browser before content read using user-agent string and some http headers.
+No special setup is required if installation steps were correctly done.
+Just open site in your mobile device's browser and you should see automatic redirection to 'mobile' version of the site.
+If you want to allow user to open 'full' version of the site you need to construct URL like this:
+http://www.mysite.com/?full_view_on_mobile
+
+
+Known issues
+============
+- Mobile browser detection is done only before content/read, other modules are ignored.
+- Redirection is done to the root of the site only.
